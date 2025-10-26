@@ -1,12 +1,29 @@
-Tools to be used:
+# **Programming Tools**
 
-Poker Planning: https://planningpokeronline.com/ -> In fact, this website, as far as I know, is only for discuss the project process 
-                                                    and suggest changes or ideas to each other and come into agreement. Basically, I do not find it that much useful, however, if the Professor asks it, we shall show it.
+🟢 MongoDB
 
-Discord Discussion Chat: https://discord.com/channels/1426977343783571567/1426977344220041349 -> If we are not organizing meetings in person between the three of us, then I guess shall build the project through chatting on Discord.
+MongoDB is a NoSQL database that stores data in flexible, JSON-like documents instead of tables.
+It is used to store and manage expense data, such as amounts, categories, and user information efficiently and at scale.
+
+⚙️ Express.js
+
+Express.js is a lightweight Node.js web framework used to build the backend server and define API routes.
+It handles HTTP requests, middleware, and routing, making it easy to connect the frontend with the database.
+
+⚛️ React.js
+
+React.js is a JavaScript library for building interactive user interfaces.
+It powers the frontend of the Expense Tracker, enabling real-time updates and smooth user interactions without page reloads.
+
+🟩 Node.js
+
+Node.js is a JavaScript runtime environment that allows JavaScript to run on the server side.
+It serves as the foundation of the backend, managing API requests, executing logic, and connecting Express.js with MongoDB.
 
 
-Project Ideas: https://www.slainstitute.com/agile-project-ideas/ -> Ammar and I, as discussed, are choosing one of the topics from this website. So please, have a look and pick one and we will decide.
+# Discord Discussion Chat: 
+If we are not organizing meetings in person between the three of us, then I guess we shall build the project through chatting on Discord ([on this group](https://discord.gg/9rFtSPFs))
 
 
-Kanban Tabel: https://www.atlassian.com/agile/kanban -> Well this is important.
+# Kanban Table:
+To keep track on our Project by marking down the important points on ([Kanban Table](https://trello.com/b/bVJi6tZg/kanban-sdm)), it is going to be much faster and more reliable.
