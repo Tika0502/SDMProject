@@ -28,6 +28,86 @@ This document focuses on the **user stories** that define the main features.
 
 *(No admin role is defined for now.)*
 
+## Diagram
+
+                           ┌───────────────────────────┐
+                           │         USER              │
+                           │  • Signs up               │
+                           │  • Logs in                │
+                           │  • Adds expenses/incomes  │
+                           │  • Views dashboard        │
+                           └───────────┬──────────────┘
+                                       │
+                                       ▼
+                        ┌───────────────────────────┐
+                        │        FRONTEND           │
+                        │        (React + Vite)     │
+                        ├───────────────────────────┤
+                        │ Pages:                    │
+                        │  • Signup                 │
+                        │  • Login                  │
+                        │  • Dashboard              │
+                        │  • Add Expense/Income     │
+                        ├───────────────────────────┤
+                        │ Context / Hooks:          │
+                        │  • AuthContext            │
+                        │  • ExpenseContext         │
+                        │  • API hooks (useFetch...)│
+                        ├───────────────────────────┤
+                        │ Components:               │
+                        │  • Charts (30/60/all)     │
+                        │  • Cards                   │
+                        │  • Inputs & Forms         │
+                        │  • Layouts                │
+                        └───────────┬──────────────┘
+                                    │  Axios Fetch
+                                    ▼  with JWT token
+                    ┌──────────────────────────────────────────┐
+                    │               BACKEND                    │
+                    │    (Node.js + Express.js API)            │
+                    ├──────────────────────────────────────────┤
+                    │ Routes (/api):                           │
+                    │   /auth/register                         │
+                    │   /auth/login                            │
+                    │   /transactions (protected)              │
+                    │   /profile (protected)                   │
+                    ├──────────────────────────────────────────┤
+                    │ Middleware:                              │
+                    │   • protect (checks JWT token)           │
+                    │   • upload (profile picture)             │
+                    │   • validation middlewares               │
+                    ├──────────────────────────────────────────┤
+                    │ Controllers:                             │
+                    │   • registerUser                         │
+                    │   • loginUser                            │
+                    │   • addExpense / addIncome               │
+                    │   • getHistory (30d, 60d, all)           │
+                    ├──────────────────────────────────────────┤
+                    │ Models (Mongoose):                       │
+                    │   • User                                 │
+                    │   • Transaction                          │
+                    └───────────┬─────────────────────────────┘
+                                │  Mongoose Queries
+                                ▼
+                   ┌───────────────────────────────────────────┐
+                   │                  DATABASE                  │
+                   │                 MongoDB                    │
+                   ├───────────────────────────────────────────┤
+                   │ Collections:                               │
+                   │   users:                                   │
+                   │     - name                                 │
+                   │     - email                                │
+                   │     - password (hashed)                    │
+                   │     - profilePic (uploads/)                │
+                   │                                             │
+                   │   transactions:                             │
+                   │     - amount                               │
+                   │     - type (expense/income)               │
+                   │     - category                             │
+                   │     - createdAt                            │
+                   │     - userId (ref User)                    │
+                   └───────────────────────────────────────────┘
+
 ---
 
 ## 3. User Stories
