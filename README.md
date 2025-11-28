@@ -1,5 +1,3 @@
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/a58f4596-4b02-4b04-83fb-f8ad11bc911d" /># Expense Tracker – Documentation
-
 ## 1. Project Overview
 
 This is a MERN (MongoDB, Express.js, React, Node.js) full-stack **expense & income tracking** application.  
