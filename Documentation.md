@@ -14,316 +14,305 @@ Users can:
   - **Last 60 days**
   - **All-time history**
 
-This document focuses on the **user stories** that define the main features.
+This document focuses on the **user stories** that define the main features and **requirements specification**.
 
 ---
 
-## 2. User Roles
+## 2. Agile SDM Requirements Specification
 
-- **Registered User**
-  - Can sign up, log in, and manage their own financial data.
-  - Can upload a profile picture during sign up.
-  - Can add, edit, and categorize expenses and incomes.
-  - Can view personal dashboards and visualizations.
+### 2.1. Project Goals
 
-*(No admin role is defined for now.)*
+- **Goal 1:** Allow users to **create, track, and manage their financial data** (expenses and incomes).
+- **Goal 2:** Provide users with **insightful visualizations** to track their spending and earnings over different time periods.
+- **Goal 3:** Enable **secure login/authentication** with session management and data security.
+- **Goal 4:** Implement **user-defined categorization** of expenses and incomes to enable detailed analysis.
+- **Goal 5:** Support **responsive design**, ensuring the app works on mobile, tablet, and desktop devices.
 
-## Diagram
+### 2.2. Scope
 
-                           ┌───────────────────────────┐
-                           │         USER              │
-                           │  • Signs up               │
-                           │  • Logs in                │
-                           │  • Adds expenses/incomes  │
-                           │  • Views dashboard        │
-                           └───────────┬──────────────┘
-                                       │
-                                       ▼
-                        ┌───────────────────────────┐
-                        │        FRONTEND           │
-                        │        (React + Vite)     │
-                        ├───────────────────────────┤
-                        │ Pages:                    │
-                        │  • Signup                 │
-                        │  • Login                  │
-                        │  • Dashboard              │
-                        │  • Add Expense/Income     │
-                        ├───────────────────────────┤
-                        │ Context / Hooks:          │
-                        │  • AuthContext            │
-                        │  • ExpenseContext         │
-                        │  • API hooks (useFetch...)│
-                        ├───────────────────────────┤
-                        │ Components:               │
-                        │  • Charts (30/60/all)     │
-                        │  • Cards                   │
-                        │  • Inputs & Forms         │
-                        │  • Layouts                │
-                        └───────────┬──────────────┘
-                                    │  Axios Fetch
-                                    ▼  with JWT token
-                    ┌──────────────────────────────────────────┐
-                    │               BACKEND                    │
-                    │    (Node.js + Express.js API)            │
-                    ├──────────────────────────────────────────┤
-                    │ Routes (/api):                           │
-                    │   /auth/register                         │
-                    │   /auth/login                            │
-                    │   /transactions (protected)              │
-                    │   /profile (protected)                   │
-                    ├──────────────────────────────────────────┤
-                    │ Middleware:                              │
-                    │   • protect (checks JWT token)           │
-                    │   • upload (profile picture)             │
-                    │   • validation middlewares               │
-                    ├──────────────────────────────────────────┤
-                    │ Controllers:                             │
-                    │   • registerUser                         │
-                    │   • loginUser                            │
-                    │   • addExpense / addIncome               │
-                    │   • getHistory (30d, 60d, all)           │
-                    ├──────────────────────────────────────────┤
-                    │ Models (Mongoose):                       │
-                    │   • User                                 │
-                    │   • Transaction                          │
-                    └───────────┬─────────────────────────────┘
-                                │  Mongoose Queries
-                                ▼
-                   ┌───────────────────────────────────────────┐
-                   │                  DATABASE                  │
-                   │                 MongoDB                    │
-                   ├───────────────────────────────────────────┤
-                   │ Collections:                               │
-                   │   users:                                   │
-                   │     - name                                 │
-                   │     - email                                │
-                   │     - password (hashed)                    │
-                   │     - profilePic (uploads/)                │
-                   │                                             │
-                   │   transactions:                             │
-                   │     - amount                               │
-                   │     - type (expense/income)               │
-                   │     - category                             │
-                   │     - createdAt                            │
-                   │     - userId (ref User)                    │
-                   └───────────────────────────────────────────┘
+The application will include the following features:
+- **Authentication:** Sign-up, login, and logout functionality.
+- **CRUD Operations:** Users can add, edit, and delete expenses and incomes.
+- **Category Management:** Users can create and assign categories to their transactions.
+- **Visualization:** Provide charts/graphs for transaction history.
+- **Time Ranges:** Support time-based filters (Last 30 Days, Last 60 Days, All-time history).
+- **Profile Management:** Ability to upload and update profile pictures.
+
+### 2.3. User Stories with Acceptance Criteria (Gherkin Format)
 
 ---
-
-## 3. User Stories
 
 ### 3.1. Sign Up (Registration)
 
-**US-001 – Create Account**
+**US-001 – Create Account**  
+- **Description**: As a new user, I want to sign up with my name, email, and password so that I can create a personal account and access the app securely.  
 
-- As a **new user**  
-  I want to **sign up with my name, email, and password**  
-  So that I can **create a personal account** and access the app securely.
+**Acceptance Criteria**:
 
-**US-002 – Unique Account (Email Uniqueness)**
+Given I am a new user,
+When I enter my name, email, and password,
+Then I should be able to successfully sign up and create an account.
 
-- As a **new user**  
-  I want the system to **prevent duplicate signups with the same email**  
-  So that each account is **unique and secure**.
+**US-002 – Unique Account (Email Uniqueness)**  
+- **Description**: As a new user, I want the system to prevent duplicate signups with the same email so that each account is unique and secure.
 
-**US-003 – Password Validation**
+**Acceptance Criteria**:
 
-- As a **new user**  
-  I want the system to **validate my password strength** (e.g., minimum length)  
-  So that my account is **protected** from simple attacks.
+Given I have already signed up with an email,
+When I try to sign up with the same email again,
+Then I should see an error message stating "Email already in use".
 
-**US-004 – Upload Profile Picture During Sign Up**
 
-- As a **new user**  
-  I want to **upload a profile picture while signing up**  
-  So that my account feels **personalized** and **recognizable** in the UI.
+**US-004 – Upload Profile Picture During Sign Up**  
+- **Description**: As a new user, I want to upload a profile picture while signing up so that my account feels personalized.
 
-**US-005 – Feedback on Invalid Sign Up**
+**Acceptance Criteria**:
 
-- As a **new user**  
-  I want to **see clear error messages** if any sign-up data is invalid  
-  So that I understand **what to fix** and can successfully create an account.
+Given I am on the sign-up page,
+When I select and upload a profile picture,
+Then the profile picture should be visible on my profile.
+
 
 ---
 
 ### 3.2. Log In (Authentication)
 
-**US-006 – Log In with Credentials**
+**US-006 – Log In with Credentials**  
+- **Description**: As a registered user, I want to log in using my email and password so that I can access my dashboard and financial data.
 
-- As a **registered user**  
-  I want to **log in using my email and password**  
-  So that I can **access my dashboard and financial data**.
+**Acceptance Criteria**:
 
-**US-007 – Invalid Login Handling**
+Given I have a registered account,
+When I enter my correct email and password,
+Then I should be logged in and directed to my dashboard.
 
-- As a **registered user**  
-  I want to **see a clear error message if my credentials are incorrect**  
-  So that I know whether it’s a **wrong password** or **non-existing account**.
 
-**US-008 – Session Handling / Persistent Login**
+**US-007 – Invalid Login Handling**  
+- **Description**: As a registered user, I want to see a clear error message if my credentials are incorrect so that I can correct them.
 
-- As a **logged-in user**  
-  I want the app to **remember me for a period of time** (e.g., using tokens/local storage)  
-  So that I don’t have to **log in every time** I refresh the page.
+**Acceptance Criteria**:
 
-**US-009 – Logout**
+Given I am on the login page,
+When I enter an incorrect email or password,
+Then I should see an error message saying "Invalid credentials".
 
-- As a **logged-in user**  
-  I want to **log out** of my account  
-  So that **no one else can access my data** from my device.
 
 ---
 
 ### 3.3. Adding Expenses & Incomes
 
-**US-010 – Add Expense**
+**US-010 – Add Expense**  
+- **Description**: As a logged-in user, I want to add an expense with fields such as amount, date, category, and description so that I can track my spending over time.
 
-- As a **logged-in user**  
-  I want to **add an expense** with fields such as **amount, date, category, and description**  
-  So that I can **track my spending** over time.
+**Acceptance Criteria**:
 
-**US-011 – Add Income**
+Given I am logged in,
+When I add an expense with valid data (amount, date, category, description),
+Then the expense should be added to my transaction history.
 
-- As a **logged-in user**  
-  I want to **add an income entry** with fields such as **amount, date, category, and source/description**  
-  So that I can **track my earnings**.
 
-**US-012 – Edit & Delete Transactions**
+**US-011 – Add Income**  
+- **Description**: As a logged-in user, I want to add an income entry with fields such as amount, date, category, and source/description so that I can track my earnings.
 
-- As a **logged-in user**  
-  I want to be able to **edit or delete** any of my existing **expense or income entries**  
-  So that I can **correct mistakes** or **remove outdated data**.
+**Acceptance Criteria**:
 
-**US-013 – Basic Validation on Transactions**
+Given I am logged in,
+When I add an income with valid data (amount, date, category, description),
+Then the income should be added to my transaction history.
 
-- As a **logged-in user**  
-  I want the system to **validate transaction fields** (e.g., amount is a positive number, date is valid)  
-  So that my financial records are **accurate and consistent**.
 
 ---
 
 ### 3.4. Categorizing Expenses and Incomes
 
-**US-014 – Custom Categories**
+**US-014 – Custom Categories**  
+- **Description**: As a logged-in user, I want to create my own categories for expenses and incomes so that the tracking reflects my personal spending and earning patterns.
 
-- As a **logged-in user**  
-  I want to **create my own categories for expenses and incomes**  
-  So that the tracking reflects **my personal spending and earning patterns**.
+**Acceptance Criteria**:
 
-**US-015 – Assign Category to Transaction**
+Given I am logged in,
+When I create a custom category for transactions,
+Then the new category should be available for selection when adding expenses or incomes.
 
-- As a **logged-in user**  
-  I want to **assign a category** to each expense or income  
-  So that I can **analyze my finances by category**.
-
-**US-016 – View Transactions by Category**
-
-- As a **logged-in user**  
-  I want to **filter or group my transactions** by category  
-  So that I can see **where most of my money is going** and **coming from**.
 
 ---
 
 ### 3.5. Dashboard & Visualizations
 
-**US-017 – Main Dashboard Overview**
+**US-017 – Main Dashboard Overview**  
+- **Description**: As a logged-in user, I want to see a dashboard summary with total income, total expenses, and balance so that I can get an overview of my financial status.
 
-- As a **logged-in user**  
-  I want to see a **dashboard summary** (e.g., total income, total expenses, balance)  
-  So that I can quickly get an **overview of my financial status**.
+**Acceptance Criteria**:
 
-**US-018 – Chart Visualization**
+Given I am logged in,
+When I visit the dashboard,
+Then I should see my total income, total expenses, and balance on the dashboard.
 
-- As a **logged-in user**  
-  I want to see **visual charts/graphs** (e.g., bar or line charts) of my expenses and incomes  
-  So that I can **understand trends** over time at a glance.
 
-**US-019 – Category-Based Visualization**
+**US-018 – Chart Visualization**  
+- **Description**: As a logged-in user, I want to see visual charts/graphs of my expenses and incomes so that I can understand trends over time.
 
-- As a **logged-in user**  
-  I want to see **visualizations grouped by category**  
-  So that I know **which categories contribute most to my spending or income**.
+**Acceptance Criteria**:
+
+Given I am logged in,
+When I visit the dashboard,
+Then I should see charts that visually represent my expenses and incomes over time (last 30 days, last 60 days, all-time).
+
 
 ---
 
-### 3.6. Time-Range Views (Last 30 Days, Last 60 Days, All-Time)
+### 3.6. Time-Range Views
 
-**US-020 – Last 30 Days View**
+**US-020 – Last 30 Days View**  
+- **Description**: As a logged-in user, I want to view only transactions from the last 30 days so that I can focus on my recent financial behavior.
 
-- As a **logged-in user**  
-  I want to view **only transactions from the last 30 days**  
-  So that I can focus on my **recent financial behavior**.
+**Acceptance Criteria**:
 
-**US-021 – Last 60 Days View**
+Given I am logged in,
+When I filter my transactions to the last 30 days,
+Then I should only see transactions from the past 30 days.
 
-- As a **logged-in user**  
-  I want to view **only transactions from the last 60 days**  
-  So that I can analyze my **short-term trends over the past two months**.
 
-**US-022 – All-Time History**
+**US-021 – Last 60 Days View**  
+- **Description**: As a logged-in user, I want to view only transactions from the last 60 days so that I can analyze my short-term trends.
 
-- As a **logged-in user**  
-  I want to view **all transactions since I started using the app**  
-  So that I can see my **long-term financial history**.
+**Acceptance Criteria**:
 
-**US-023 – Switch Between Time Ranges**
+Given I am logged in,
+When I filter my transactions to the last 60 days,
+Then I should only see transactions from the past 60 days.
 
-- As a **logged-in user**  
-  I want a simple way to **switch between “Last 30 days”, “Last 60 days”, and “All-time”** on the dashboard  
-  So that I can **compare different periods easily**.
 
 ---
 
 ### 3.7. Profile & UI Personalization
 
-**US-024 – Display Profile Picture**
+**US-024 – Display Profile Picture**  
+- **Description**: As a logged-in user, I want my uploaded profile picture to show in the header or profile section so that the app feels personalized.
 
-- As a **logged-in user**  
-  I want my **uploaded profile picture** to show in the header or profile section  
-  So that the app feels **personal and recognizable**.
+**Acceptance Criteria**:
 
-**US-025 – View and Update Profile Info (Optional, if implemented)**
+Given I am logged in,
+When I visit my profile page,
+Then my profile picture should be visible at the top of the page.
 
-- As a **logged-in user**  
-  I want to **view and update my basic profile info** (e.g., name, profile picture)  
-  So that I can **keep my account details up to date**.
 
 ---
 
 ## 4. Non-Functional User Stories (High Level)
 
-**US-NF-001 – Security**
+**US-NF-001 – Security**  
+- **Description**: As a user, I want my password to be stored securely so that my account is protected in case of a data breach.
 
-- As a **user**  
-  I want my **password to be stored securely** (e.g., hashed)  
-  So that my account is **protected** in case of a data breach.
+**Acceptance Criteria**:
 
-**US-NF-002 – Performance**
+Given I am a user,
+When I sign up or log in,
+Then my password should be securely hashed in the database and not stored as plain text.
 
-- As a **user**  
-  I want the dashboard and visualizations to **load quickly**  
-  So that I can access my financial information **without long waiting times**.
+**US-NF-002 – Performance**  
+- **Description**: As a user, I want the dashboard and visualizations to load quickly so that I can access my financial information without long waiting times.
 
-**US-NF-003 – Responsiveness**
+**Acceptance Criteria**:
 
-- As a **user**  
-  I want the app to be **usable on mobile, tablet, and desktop**  
-  So that I can track my finances from **any device**.
+Given I am a user,
+When I visit the dashboard,
+Then the page should load in under 3 seconds.
+
 
 ---
 
-## 5. Summary
+## 5. Diagram
 
-This document defines the main **user stories** for the MERN full-stack Expense Tracker application, covering:
+Below is a **system architecture diagram** that shows how the frontend, backend, and database interact:
 
-- **Authentication:** Sign up, log in, logout with profile picture.
-- **Core CRUD:** Adding, editing, and deleting expenses and incomes.
-- **Categorization:** User-defined categories for transactions.
-- **Visualization:** Dashboard with charts.
-- **Time Ranges:** Views for **last 30 days**, **last 60 days**, and **all-time** history.
+                       ┌───────────────────────────┐
+                       │         USER              │
+                       │  • Signs up               │
+                       │  • Logs in                │
+                       │  • Adds expenses/incomes  │
+                       │  • Views dashboard        │
+                       └───────────┬──────────────┘
+                                   │
+                                   ▼
+                    ┌───────────────────────────┐
+                    │        FRONTEND           │
+                    │        (React + Vite)     │
+                    ├───────────────────────────┤
+                    │ Pages:                    │
+                    │  • Signup                 │
+                    │  • Login                  │
+                    │  • Dashboard              │
+                    │  • Add Expense/Income     │
+                    ├───────────────────────────┤
+                    │ Context / Hooks:          │
+                    │  • AuthContext            │
+                    │  • ExpenseContext         │
+                    │  • API hooks (useFetch...)│
+                    ├───────────────────────────┤
+                    │ Components:               │
+                    │  • Charts (30/60/all)     │
+                    │  • Cards                   │
+                    │  • Inputs & Forms         │
+                    │  • Layouts                │
+                    └───────────┬──────────────┘
+                                │  Axios Fetch
+                                ▼  with JWT token
+                ┌──────────────────────────────────────────┐
+                │               BACKEND                    │
+                │    (Node.js + Express.js API)            │
+                ├──────────────────────────────────────────┤
+                │ Routes (/api):                           │
+                │   /auth/register                         │
+                │   /auth/login                            │
+                │   /transactions (protected)              │
+                │   /profile (protected)                   │
+                ├──────────────────────────────────────────┤
+                │ Middleware:                              │
+                │   • protect (checks JWT token)           │
+                │   • upload (profile picture)             │
+                │   • validation middlewares               │
+                ├──────────────────────────────────────────┤
+                │ Controllers:                             │
+                │   • registerUser                         │
+                │   • loginUser                            │
+                │   • addExpense / addIncome               │
+                │   • getHistory (30d, 60d, all)           │
+                ├──────────────────────────────────────────┤
+                │ Models (Mongoose):                       │
+                │   • User                                 │
+                │   • Transaction                          │
+                └───────────┬─────────────────────────────┘
+                            │  Mongoose Queries
+                            ▼
+               ┌───────────────────────────────────────────┐
+               │                  DATABASE                  │
+               │                 MongoDB                    │
+               ├──────────────────────────────────────────┤
+               │ Collections:                               │
+               │   users:                                   │
+               │     - name                                 │
+               │     - email                                │
+               │     - password (hashed)                    │
+               │     - profilePic (uploads/)                │
+               │                                             │
+               │   transactions:                             │
+               │     - amount                               │
+               │     - type (expense/income)               │
+               │     - category                             │
+               │     - createdAt                            │
+               │     - userId (ref User)                    │
+               └───────────────────────────────────────────┘
+6. Summary
 
-These user stories can be used directly for:
-- Planning your **MERN API routes and models**
-- Designing your **React components & pages**
-- Writing **test cases** (unit, integration, E2E)
-- Structuring your **project report / documentation**
+This document defines the requirements specification and user stories for the MERN full-stack Expense Tracker application. It includes acceptance criteria written in Gherkin syntax, aligning with Agile SDM principles. The document can be used for:
+
+Defining and refining the user stories with clear acceptance criteria.
+
+Planning API routes, backend models, and frontend components.
+
+Supporting testing (unit tests, integration tests, E2E).
+
+Structuring your project documentation for easy reference and iteration.
+
+This approach ensures that the project can be built incrementally and flexibly, accommodating changes and user feedback throughout the development process.
