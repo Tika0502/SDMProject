@@ -51,7 +51,7 @@ Given I am a new user,
 When I enter my name, email, and password,
 Then I should be able to successfully sign up and create an account.
 
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/76aabbd8-b600-47c1-86ba-64a6607ad2a2" />
+<img width="1917" height="910" alt="image" src="https://github.com/user-attachments/assets/cd0c0830-d822-4f3f-944a-23c8ab692353" />
 
 
 **US-002 – Unique Account (Email Uniqueness)**  
@@ -96,6 +96,8 @@ Then I should be logged in and directed to my dashboard.
 Given I am on the login page,
 When I enter an incorrect email or password,
 Then I should see an error message saying "Invalid credentials".
+
+<img width="1059" height="843" alt="image" src="https://github.com/user-attachments/assets/817098f0-c1dc-44dc-8fa4-e7fcb62bff7a" />
 
 
 ---
@@ -149,6 +151,9 @@ Given I am logged in,
 When I visit the dashboard,
 Then I should see my total income, total expenses, and balance on the dashboard.
 
+<img width="1899" height="912" alt="image" src="https://github.com/user-attachments/assets/4d204129-9441-4e20-9623-35ae2b97cab0" />
+
+
 
 **US-018 – Chart Visualization**  
 - **Description**: As a logged-in user, I want to see visual charts/graphs of my expenses and incomes so that I can understand trends over time.
@@ -183,6 +188,8 @@ Given I am logged in,
 When I filter my transactions to the last 60 days,
 Then I should only see transactions from the past 60 days.
 
+<img width="1581" height="832" alt="image" src="https://github.com/user-attachments/assets/429fb98b-ac3d-427d-8830-99672df6cf40" />
+
 
 ---
 
@@ -210,6 +217,9 @@ Then my profile picture should be visible at the top of the page.
 Given I am a user,
 When I sign up or log in,
 Then my password should be securely hashed in the database and not stored as plain text.
+
+<img width="887" height="238" alt="image" src="https://github.com/user-attachments/assets/e980c679-f420-4ca9-9e5f-2e792767d859" />
+
 
 **US-NF-002 – Performance**  
 - **Description**: As a user, I want the dashboard and visualizations to load quickly so that I can access my financial information without long waiting times.
