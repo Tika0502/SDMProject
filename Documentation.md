@@ -303,7 +303,9 @@ Below is a **system architecture diagram** that shows how the frontend, backend,
                │     - createdAt                            │
                │     - userId (ref User)                    │
                └───────────────────────────────────────────┘
-6. Summary
+---
+
+# 6. Summary
 
 This document defines the requirements specification and user stories for the MERN full-stack Expense Tracker application. It includes acceptance criteria written in Gherkin syntax, aligning with Agile SDM principles. The document can be used for:
 
