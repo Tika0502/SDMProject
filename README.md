@@ -1,4 +1,4 @@
-# Expense Tracker – Documentation
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/a58f4596-4b02-4b04-83fb-f8ad11bc911d" /># Expense Tracker – Documentation
 
 ## 1. Project Overview
 
@@ -52,6 +52,9 @@ The application will include the following features:
 Given I am a new user,
 When I enter my name, email, and password,
 Then I should be able to successfully sign up and create an account.
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/76aabbd8-b600-47c1-86ba-64a6607ad2a2" />
+
 
 **US-002 – Unique Account (Email Uniqueness)**  
 - **Description**: As a new user, I want the system to prevent duplicate signups with the same email so that each account is unique and secure.
